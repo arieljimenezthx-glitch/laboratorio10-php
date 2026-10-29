@@ -32,9 +32,12 @@ class CalculadoraFinanciera {
 
     // TODO: Ejercicio 1.4 - Implementar calcularCuotaMensual()
     public function calcularCuotaMensual(): float {
+        return $this->cuotaParaPlazo($this->plazoMeses);
+    }
+
+    // Formula de amortizacion francesa para un plazo de $n meses
+    private function cuotaParaPlazo(int $n): float {
         $r = ($this->tasaAnual / 100) / 12;
-        $n = $this->plazoMeses;
-        
         $cuota = $this->montoBase * ($r * pow(1 + $r, $n)) / (pow(1 + $r, $n) - 1);
         return round($cuota, 2);
     }
@@ -43,9 +46,7 @@ class CalculadoraFinanciera {
     public function __call(string $name, array $arguments) {
         if ($name === 'calcularInteresTotal') {
             $plazoEfectivo = isset($arguments[0]) && is_int($arguments[0]) ? $arguments[0] : $this->plazoMeses;
-            // La cuota se recalcula con el plazo efectivo; si no, el interes puede salir negativo
-            $r = ($this->tasaAnual / 100) / 12;
-            $cuota = round($this->montoBase * ($r * pow(1 + $r, $plazoEfectivo)) / (pow(1 + $r, $plazoEfectivo) - 1), 2);
+            $cuota = $this->cuotaParaPlazo($plazoEfectivo);
             $totalPagado = $cuota * $plazoEfectivo;
             return round($totalPagado - $this->montoBase, 2);
         }
