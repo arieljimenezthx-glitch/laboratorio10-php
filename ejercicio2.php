@@ -70,11 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container">
     <h2>Calculadora Financiera - Formulario POST Seguro</h2>
     <?php if ($mensajeError): ?>
-        <div class="error"><?php echo $mensajeError; ?></div>
+        <div class="error"><?php echo htmlspecialchars($mensajeError, ENT_QUOTES, 'UTF-8'); ?></div>
     <?php endif; ?>
 
     <form action="ejercicio2.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8'); ?>">
         
         <div class="form-group">
             <label for="cedula_semilla">Ultimos 3 digitos de Cedula (Semilla):</label>
