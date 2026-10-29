@@ -9,10 +9,17 @@ if (!defined('ACCESO_PERMITIDO')) {
     die("Acceso directo no permitido.");
 }
 
+/**
+ * Calcula cuotas e intereses de un prestamo con amortizacion francesa.
+ * Integrantes: Ariel Jimenez y Alejandro Saenz
+ */
 class CalculadoraFinanciera {
     // TODO: Ejercicio 1.2 - Declarar miembros privados ($montoBase, $tasaAnual, $plazoMeses)
+    /** @var float Monto del prestamo */
     private float $montoBase;
+    /** @var float Tasa de interes anual en porcentaje */
     private float $tasaAnual;
+    /** @var int Plazo del prestamo en meses */
     private int $plazoMeses;
 
     // TODO: Ejercicio 1.3 - Implementar Constructor con validacion
@@ -43,6 +50,10 @@ class CalculadoraFinanciera {
     }
 
     // TODO: Ejercicio 1.5 - Implementar sobrecarga dinamica con __call
+    /**
+     * Sobrecarga dinamica: calcularInteresTotal([int $plazo]) devuelve el interes total.
+     * Cualquier otro metodo inexistente lanza BadMethodCallException.
+     */
     public function __call(string $name, array $arguments) {
         if ($name === 'calcularInteresTotal') {
             $plazoEfectivo = isset($arguments[0]) && is_int($arguments[0]) ? $arguments[0] : $this->plazoMeses;
