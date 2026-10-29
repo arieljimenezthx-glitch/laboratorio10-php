@@ -46,6 +46,9 @@ class CalculadoraFinanciera {
     public function __call(string $name, array $arguments) {
         if ($name === 'calcularInteresTotal') {
             $plazoEfectivo = isset($arguments[0]) && is_int($arguments[0]) ? $arguments[0] : $this->plazoMeses;
+            if ($plazoEfectivo <= 0) {
+                throw new InvalidArgumentException("El plazo efectivo debe ser mayor a cero.");
+            }
             $cuota = $this->cuotaParaPlazo($plazoEfectivo);
             $totalPagado = $cuota * $plazoEfectivo;
             return round($totalPagado - $this->montoBase, 2);
