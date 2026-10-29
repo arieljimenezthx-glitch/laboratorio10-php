@@ -69,7 +69,7 @@ for ($mes = 1; $mes <= $plazo; $mes++) {
     <?php endif; ?>
     <p><strong>Semilla de Cedula:</strong> <?php echo $semilla; ?></p>
     <p><strong>Resumen Cifrado (AES-256-CBC):</strong></p>
-    <div id="cifrado-resultado" class="cifrado-box"><?php echo $textoCifrado; ?></div>
+    <div id="cifrado-resultado" class="cifrado-box"><?php echo htmlspecialchars((string)$textoCifrado, ENT_QUOTES, 'UTF-8'); ?></div>
 
     <table>
         <thead>
