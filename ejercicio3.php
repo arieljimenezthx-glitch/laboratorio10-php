@@ -7,9 +7,9 @@ require_once 'includes/CalculadoraFinanciera.php';
 
 // TODO: Sanitizar entradas recibidas por GET
 $semilla = htmlspecialchars(trim($_GET['cedula_semilla'] ?? '000'));
-$monto   = (float)($_GET['monto'] ?? 1000);
-$tasa    = (float)($_GET['tasa'] ?? 12);
-$plazo   = (int)($_GET['plazo'] ?? 12);
+$monto   = (float)filter_var($_GET['monto'] ?? 1000, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$tasa    = (float)filter_var($_GET['tasa'] ?? 12, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$plazo   = (int)filter_var($_GET['plazo'] ?? 12, FILTER_SANITIZE_NUMBER_INT);
 
 $calc = new CalculadoraFinanciera($monto, $tasa, $plazo);
 $cuota = $calc->calcularCuotaMensual();
