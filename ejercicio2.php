@@ -29,7 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tasa    = filter_var($_POST['tasa'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $plazo   = filter_var($_POST['plazo'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
 
-    if ($monto > 0 && $tasa > 0 && $plazo > 0) {
+    if (!preg_match('/^\d{3}$/', $semilla)) {
+        $mensajeError = "La semilla debe tener exactamente 3 digitos.";
+    } elseif ($monto > 0 && $tasa > 0 && $plazo > 0) {
         try {
             $calc = new CalculadoraFinanciera((float)$monto, (float)$tasa, (int)$plazo);
             $cuota = $calc->calcularCuotaMensual();
