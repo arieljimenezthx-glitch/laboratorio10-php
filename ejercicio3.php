@@ -11,8 +11,15 @@ $monto   = (float)filter_var($_GET['monto'] ?? 1000, FILTER_SANITIZE_NUMBER_FLOA
 $tasa    = (float)filter_var($_GET['tasa'] ?? 12, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 $plazo   = (int)filter_var($_GET['plazo'] ?? 12, FILTER_SANITIZE_NUMBER_INT);
 
-$calc = new CalculadoraFinanciera($monto, $tasa, $plazo);
-$cuota = $calc->calcularCuotaMensual();
+$mensajeError = "";
+$cuota = 0.0;
+try {
+    $calc = new CalculadoraFinanciera($monto, $tasa, $plazo);
+    $cuota = $calc->calcularCuotaMensual();
+} catch (InvalidArgumentException $e) {
+    $mensajeError = $e->getMessage();
+    $plazo = 0;
+}
 
 // TODO: Cifrado Simetrico con OpenSSL (AES-256-CBC)
 $claveCifrado = hash('sha256', $semilla);
@@ -57,6 +64,9 @@ for ($mes = 1; $mes <= $plazo; $mes++) {
 <body>
 <div class="container">
     <h2>Tabla de Amortizacion (Procesamiento GET)</h2>
+    <?php if ($mensajeError): ?>
+        <p style="color: red;"><?php echo htmlspecialchars($mensajeError, ENT_QUOTES, 'UTF-8'); ?></p>
+    <?php endif; ?>
     <p><strong>Semilla de Cedula:</strong> <?php echo $semilla; ?></p>
     <p><strong>Resumen Cifrado (AES-256-CBC):</strong></p>
     <div id="cifrado-resultado" class="cifrado-box"><?php echo $textoCifrado; ?></div>
