@@ -15,6 +15,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 $mensajeError = "";
 $resultadoJSON = null;
+$valores = ['cedula_semilla' => '', 'monto' => '', 'tasa' => '', 'plazo' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // TODO: Validar Token CSRF enviado
@@ -28,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $monto   = filter_var($_POST['monto'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $tasa    = filter_var($_POST['tasa'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $plazo   = filter_var($_POST['plazo'] ?? 0, FILTER_SANITIZE_NUMBER_INT);
+    $valores = ['cedula_semilla' => $semilla, 'monto' => $monto, 'tasa' => $tasa, 'plazo' => $plazo];
 
     if (!preg_match('/^\d{3}$/', $semilla)) {
         $mensajeError = "La semilla debe tener exactamente 3 digitos.";
@@ -82,22 +84,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <div class="form-group">
             <label for="cedula_semilla">Ultimos 3 digitos de Cedula (Semilla):</label>
-            <input type="text" id="cedula_semilla" name="cedula_semilla" required maxlength="3" pattern="\d{3}">
+            <input type="text" id="cedula_semilla" name="cedula_semilla" required maxlength="3" pattern="\d{3}" value="<?php echo htmlspecialchars((string)$valores['cedula_semilla'], ENT_QUOTES, 'UTF-8'); ?>">
         </div>
 
         <div class="form-group">
             <label for="monto">Monto del Prestamo ($):</label>
-            <input type="number" id="monto" name="monto" step="0.01" required min="100">
+            <input type="number" id="monto" name="monto" step="0.01" required min="100" value="<?php echo htmlspecialchars((string)$valores['monto'], ENT_QUOTES, 'UTF-8'); ?>">
         </div>
 
         <div class="form-group">
             <label for="tasa">Tasa de Interes Anual (%):</label>
-            <input type="number" id="tasa" name="tasa" step="0.1" required min="1">
+            <input type="number" id="tasa" name="tasa" step="0.1" required min="1" value="<?php echo htmlspecialchars((string)$valores['tasa'], ENT_QUOTES, 'UTF-8'); ?>">
         </div>
 
         <div class="form-group">
             <label for="plazo">Plazo en Meses:</label>
-            <input type="number" id="plazo" name="plazo" required min="1">
+            <input type="number" id="plazo" name="plazo" required min="1" value="<?php echo htmlspecialchars((string)$valores['plazo'], ENT_QUOTES, 'UTF-8'); ?>">
         </div>
 
         <button type="submit">Calcular Cuota</button>
