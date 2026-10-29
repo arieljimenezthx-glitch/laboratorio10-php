@@ -18,3 +18,10 @@
 - Alejandro Saenz
 
 Rama de trabajo: `lab10-jimenez-saenz`
+
+## Como probar
+
+1. Iniciar Apache en XAMPP y abrir `http://localhost/laboratorio10-php/ejercicio2.php`.
+2. Llenar el formulario (semilla de 3 digitos, monto, tasa y plazo) y presionar **Calcular Cuota**.
+3. Usar el enlace del resultado para ver la tabla de amortizacion en `ejercicio3.php`.
+4. Evaluacion local: `php autograde.php` (en Windows: `C:\xampp\php\php.exe autograde.php`).
