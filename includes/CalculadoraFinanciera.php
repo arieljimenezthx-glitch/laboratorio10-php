@@ -43,7 +43,9 @@ class CalculadoraFinanciera {
     public function __call(string $name, array $arguments) {
         if ($name === 'calcularInteresTotal') {
             $plazoEfectivo = isset($arguments[0]) && is_int($arguments[0]) ? $arguments[0] : $this->plazoMeses;
-            $cuota = $this->calcularCuotaMensual();
+            // La cuota se recalcula con el plazo efectivo; si no, el interes puede salir negativo
+            $r = ($this->tasaAnual / 100) / 12;
+            $cuota = round($this->montoBase * ($r * pow(1 + $r, $plazoEfectivo)) / (pow(1 + $r, $plazoEfectivo) - 1), 2);
             $totalPagado = $cuota * $plazoEfectivo;
             return round($totalPagado - $this->montoBase, 2);
         }
