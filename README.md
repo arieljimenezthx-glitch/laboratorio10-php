@@ -11,3 +11,10 @@
 6. Envíe sus cambios a su fork y abra un **Pull Request** hacia el repositorio principal.
 
 *No modifique `autograde.php` ni el archivo de workflow en `.github/workflows/`.*
+
+## Integrantes
+
+- Ariel Jimenez
+- Alejandro Saenz
+
+Rama de trabajo: `lab10-jimenez-saenz`
