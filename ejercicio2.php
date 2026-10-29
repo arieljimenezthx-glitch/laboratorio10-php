@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'interes_total' => $interesTotal
             ];
 
-            $resultadoJSON = json_encode($resultadoData);
+            $resultadoJSON = json_encode($resultadoData, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
         } catch (Exception $e) {
             $mensajeError = $e->getMessage();
         }
