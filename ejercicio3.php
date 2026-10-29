@@ -26,6 +26,9 @@ $claveCifrado = hash('sha256', $semilla);
 $iv = substr(hash('sha256', 'UTP_IV_' . $semilla), 0, 16);
 $textoPlano = "Monto: {$monto} | Cuota: {$cuota}";
 $textoCifrado = openssl_encrypt($textoPlano, 'AES-256-CBC', $claveCifrado, 0, $iv);
+// Verificacion: descifrar con la misma clave e IV debe devolver el texto original
+$textoDescifrado = openssl_decrypt($textoCifrado, 'AES-256-CBC', $claveCifrado, 0, $iv);
+$cifradoValido = ($textoDescifrado === $textoPlano);
 
 // TODO: Generacion de Tabla de Amortizacion con Bucle for
 $saldo = $monto;
@@ -81,6 +84,8 @@ for ($mes = 1; $mes <= $plazo; $mes++) {
     <p><strong>Semilla de Cedula:</strong> <?php echo $semilla; ?></p>
     <p><strong>Resumen Cifrado (AES-256-CBC):</strong></p>
     <div id="cifrado-resultado" class="cifrado-box"><?php echo htmlspecialchars((string)$textoCifrado, ENT_QUOTES, 'UTF-8'); ?></div>
+
+    <p><strong>Verificacion de descifrado:</strong> <?php echo $cifradoValido ? 'Correcta' : 'Fallida'; ?></p>
 
     <table>
         <thead>
