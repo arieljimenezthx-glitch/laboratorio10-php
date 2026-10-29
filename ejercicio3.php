@@ -35,12 +35,18 @@ $tablaAmortizacion = [];
 for ($mes = 1; $mes <= $plazo; $mes++) {
     $interesMes = round($saldo * $r, 2);
     $principalMes = round($cuota - $interesMes, 2);
+    $cuotaMes = $cuota;
+    // En el ultimo mes se paga todo el saldo pendiente para que quede en 0
+    if ($mes === $plazo) {
+        $principalMes = $saldo;
+        $cuotaMes = round($interesMes + $principalMes, 2);
+    }
     $saldo = round($saldo - $principalMes, 2);
     if ($saldo < 0) $saldo = 0;
 
     $tablaAmortizacion[] = [
         'mes' => $mes,
-        'cuota' => $cuota,
+        'cuota' => $cuotaMes,
         'interes' => $interesMes,
         'principal' => $principalMes,
         'saldo' => $saldo
