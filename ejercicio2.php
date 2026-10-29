@@ -113,6 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php $res = json_decode($resultadoJSON, true); ?>
             <p><strong>Cuota Mensual:</strong> $<?php echo number_format($res['cuota'], 2); ?></p>
             <p><strong>Interes Total:</strong> $<?php echo number_format($res['interes_total'], 2); ?></p>
+            <?php $enlaceEj3 = 'ejercicio3.php?' . http_build_query(['cedula_semilla' => $valores['cedula_semilla'], 'monto' => $valores['monto'], 'tasa' => $valores['tasa'], 'plazo' => $valores['plazo']]); ?>
+            <p><a href="<?php echo htmlspecialchars($enlaceEj3, ENT_QUOTES, 'UTF-8'); ?>">Ver tabla de amortizacion (Ejercicio 3)</a></p>
         </div>
         <!-- Bloque estructurado exigido para validacion del Autograde -->
         <script type="application/json" id="resultado-ej2">
