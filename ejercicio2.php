@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!preg_match('/^\d{3}$/', $semilla)) {
         $mensajeError = "La semilla debe tener exactamente 3 digitos.";
+    } elseif ((float)$monto < 100 || (float)$tasa < 1 || (int)$plazo < 1) {
+        $mensajeError = "El monto minimo es 100, la tasa minima 1% y el plazo minimo 1 mes.";
     } elseif ($monto > 0 && $tasa > 0 && $plazo > 0) {
         try {
             $calc = new CalculadoraFinanciera((float)$monto, (float)$tasa, (int)$plazo);
