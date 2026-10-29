@@ -31,6 +31,8 @@ $textoCifrado = openssl_encrypt($textoPlano, 'AES-256-CBC', $claveCifrado, 0, $i
 $saldo = $monto;
 $r = ($tasa / 100) / 12;
 $tablaAmortizacion = [];
+$totalInteres = 0.0;
+$totalPrincipal = 0.0;
 
 for ($mes = 1; $mes <= $plazo; $mes++) {
     $interesMes = round($saldo * $r, 2);
@@ -43,6 +45,9 @@ for ($mes = 1; $mes <= $plazo; $mes++) {
     }
     $saldo = round($saldo - $principalMes, 2);
     if ($saldo < 0) $saldo = 0;
+
+    $totalInteres += $interesMes;
+    $totalPrincipal += $principalMes;
 
     $tablaAmortizacion[] = [
         'mes' => $mes,
@@ -98,6 +103,15 @@ for ($mes = 1; $mes <= $plazo; $mes++) {
             </tr>
             <?php endforeach; ?>
         </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th>-</th>
+                <th><?php echo number_format($totalInteres, 2); ?></th>
+                <th><?php echo number_format($totalPrincipal, 2); ?></th>
+                <th>-</th>
+            </tr>
+        </tfoot>
     </table>
 </div>
 </body>
