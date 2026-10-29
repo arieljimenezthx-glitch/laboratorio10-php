@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf_token'], $tokenEnviado)) {
         die("Error de validacion CSRF: Token invalido o expirado.");
     }
+    // Token de un solo uso: se renueva despues de cada envio valido
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
     // TODO: Sanitizar entradas POST
     $semilla = htmlspecialchars(trim($_POST['cedula_semilla'] ?? '000'));
